@@ -1,0 +1,80 @@
+create database springdb3;
+use springdb3;
+-- create user 'springUser'@'localhost' identified by 'mysql';
+-- 사전에 만들었으니 pass. 없으면 적용시킬 것.
+
+-- user 권한처리
+grant all privileges on springdb3.* to 'springUser'@'localhost' with grant option;
+flush privileges;
+
+create table board(
+bno bigint auto_increment,
+bcls varchar(5) not null,
+title varchar(256) not null,
+writer varchar(256) not null,
+content varchar(512),
+is_del varchar(5) default 'N',
+reg_date datetime default now(),
+mod_date datetime default now(),
+read_cnt int default 0,
+cmt_qty int default 0,
+primary key(bno)
+);
+
+create table booklist (
+id bigint auto_increment,
+set_isbn_no varchar(13) not null,
+each_isbn_no varchar(13) not null,
+book_num varchar(100) not null,
+title_name varchar(256),
+origin_isbn_no varchar(50),
+rent_cnt bigint default 0,
+primary key(id)
+);
+
+
+-- local로 데이터를 넣을 예정 : import
+-- 그 전에 local_infile 설정확인. : show global variables like 'local_infile';
+-- off 되어있다면 on 으로 설정(root 계정으로 할 것) : set global local_infile = true;
+
+-- csv data load
+-- id가 csv 파일에 없고 auto_increment 처리되어 각 컬럼을 지정(맨 마지막줄.)
+
+load data local infile "D:/umc/springProject_workspace/mySpringProject/src/main/resources/booklist_main.csv" 
+into table booklist 
+fields terminated by "," 
+enclosed by '"' 
+lines terminated by '\n' 
+ignore 1 rows
+(set_isbn_no, each_isbn_no, book_num, title_name, origin_isbn_no);
+csv 출저 : https://www.bigdata-culture.kr/bigdata/
+			user/data_market/detail.do?id=0b24bae1-71f9-4dec-b65e-d3ebe7d7e7d9
+
+-- user : 회원
+create table user (
+email varchar(256) not null,
+pw varchar(256) not null,
+nickname varchar(256),
+reg_date datetime default now(),
+last_login datetime default now(),
+primary key(email)
+);
+			
+-- auth : 권한
+create table auth (
+id bigint auto_increment,
+email varchar(256) not null,
+auth varchar(256) not null,
+primary key(id)
+);			
+-- foreign key(email) references user(email)
+
+-- rent : 대여
+create table rent (
+rent_no bigint auto_increment,
+email varchar(256) not null,
+rent_book_id bigint not null,
+primary key(rent_no)
+);
+-- foreign key(email) references user(email),
+-- foreign key(rent_book_id) references booklist(id)
