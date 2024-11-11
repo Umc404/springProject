@@ -30,4 +30,10 @@ public class BoardServiceImpl implements BoardService {
 		return bdao.getTotal();
 	}
 
+	@Override
+	public List<BoardVO> getNoticeList(PagingVO pgvo) {
+		// TODO Auto-generated method stub
+		return bdao.getNoticeList(pgvo);
+	}
+
 }

@@ -7,6 +7,8 @@ import com.ezen.spring.domain.PagingVO;
 
 public interface BoardDAO {
 
+	List<BoardVO> getNoticeList(PagingVO pgvo);
+
 	List<BoardVO> getFreeList(PagingVO pgvo);
 
 	int getTotal();

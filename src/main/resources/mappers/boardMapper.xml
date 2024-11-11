@@ -7,7 +7,7 @@
 	
 	<select id="getFreeList" resultType="com.ezen.spring.domain.BoardVO">
 		select * from board 
-		where is_del =  'N' 
+		where is_del = 'N' 
 		and bcls = 'f'
 		order by bno desc 
 		limit #{pageStart}, #{qty} 
@@ -16,5 +16,13 @@
 	<select id="getTotal" resultType="int">
 		select count(bno) from board where is_del = 'N'
 	</select>
-
+	
+	<select id="getNoticeList" resultType="com.ezen.spring.domain.BoardVO">
+		select * from board 
+		where is_del = 'N' 
+		and bcls = 'n' 
+		order by bno desc 
+		limit #{pageStart}, #{qty}
+	</select>
+	
 </mapper>	

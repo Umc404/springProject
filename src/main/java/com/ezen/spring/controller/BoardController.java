@@ -40,5 +40,19 @@ public class BoardController {
 		return "/board/free";
 	}
 	
+	@GetMapping("/notice")
+	public String noticeList(Model m, PagingVO pgvo) {
+		log.info(">>>>>> 1 {}", pgvo);
+		List<BoardVO> list = bsv.getNoticeList(pgvo);
+		int totalCount = bsv.getTotal();
+		PagingHandler ph = new PagingHandler(totalCount, pgvo);
+		log.info(">>> totalCount > {}", totalCount);
+		log.info(">>>>>>>>>>> pgvo > {}", pgvo);
+		m.addAttribute("list", list);
+		m.addAttribute("ph", ph);
+		log.info(">>>>>>>>>>> m > {}", m);
+		return "/board/notice";
+	}
+	
 //	public String notice
 }

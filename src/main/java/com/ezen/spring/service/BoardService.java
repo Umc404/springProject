@@ -11,4 +11,6 @@ public interface BoardService {
 
 	int getTotal();
 
+	List<BoardVO> getNoticeList(PagingVO pgvo);
+
 }
